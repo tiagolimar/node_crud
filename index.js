@@ -14,8 +14,8 @@ const rotas = [
 ]
 
 server.get('/',(request,response)=>{
-    response.send("Página principal")
-    console.log('Fez um GET')
+    response.send("Página principal");
+    console.log('Fez um GET');
 })
 
 server.get('/produto/:id',(request,response)=>{
@@ -42,11 +42,24 @@ server.post('/produto',(request,response)=>{
         quantidade: 321,
     }
     
-    produto = db.adicionar(produto)
-    response.status(201).send(db.produtos)
+    produto = db.adicionar(produto);
+    response.status(201).send(db.produtos);
 })
 
-const port = 2353
+server.put('/produto/:id',(request,response)=>{
+    let {id} = request.params;
+    let produto = request.body;
+    produto = db.atualizar(id,produto);
+    return response.status(200).send(produto);
+})
+
+server.delete('/produto/:id',(request,response)=>{
+    let {id} = request.params;
+    const resposta = db.apagar(id);
+    return response.status(200).send(resposta)
+})
+
+const port = 3000
 const host = 'localhost'
 
 server.listen({
